@@ -1,0 +1,178 @@
+/* Root variables */
+:root {
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+}
+
+/* Fix media query (no nesting) */
+@media (max-width: 1024px) {
+  :root {
+    font-size: 16px;
+  }
+}
+
+/* LIGHT MODE (default) */
+body.light {
+  background-color: #f3f4f6;
+  color: var(--text);
+}
+
+/* DARK MODE */
+body.dark {
+  background-color: #111827;
+  color: #ffffff;
+}
+
+/* Base body */
+body {
+  margin: 0;
+}
+
+/* Root container */
+#root {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Headings */
+h1, h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+body.dark h1,
+body.dark h2 {
+  color: white;
+}
+
+/* Responsive headings */
+h1 {
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+}
+
+h2 {
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+  h2 {
+    font-size: 20px;
+  }
+}
+
+/* Header */
+.header {
+  background: linear-gradient(to right, #4f46e5, #3b82f6);
+  color: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Dark header */
+body.dark .header {
+  background: #1f2937;
+}
+
+/* Posts */
+.post {
+  background: white;
+  color: black;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+body.dark .post {
+  background: #1f2937;
+  color: white;
+}
+
+/* Comments */
+.comments {
+  margin-top: 30px;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+}
+
+/* Buttons */
+button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background-color: #fbbf24;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4f46e5;
+  color: white;
+}
+
+/* Likes / Dislikes */
+.likes {
+  padding: 7px 14px;
+  font-size: 11px;
+  color: #3b82f6;
+}
+
+.likes:hover {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.dislikes {
+  padding: 7px;
+  font-size: 11px;
+  color: #aa3bff;
+}
+
+.dislikes:hover {
+  background-color: #aa3bff;
+  color: white;
+}
+
+/* Footer */
+footer {
+  background: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+body.dark footer {
+  background: black;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
