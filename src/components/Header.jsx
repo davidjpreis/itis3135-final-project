@@ -6,11 +6,7 @@ function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   // Sync theme with body class for global styles
-  useEffect(() => {
-    document.body.classList.remove("light", "dark");
-    document.body.classList.add(theme);
-  }, [theme]);
-
+ 
   return (
     <div
       className={`header p-4 flex justify-between items-center ${
