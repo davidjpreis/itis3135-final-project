@@ -1,12 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "./ThemeContext";
 
-function Header() {
+function Header({ isLoggedIn, onLogout }) {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const navigate = useNavigate();
 
-  // Sync theme with body class for global styles
- 
+  useEffect(() => {
+    document.body.classList.remove("light", "dark");
+    document.body.classList.add(theme);
+  }, [theme]);
+
+  function handleLogoutClick() {
+    onLogout();
+    navigate("/login");
+  }
+
   return (
     <div
       className={`header p-4 flex justify-between items-center ${
@@ -15,13 +24,24 @@ function Header() {
     >
       <h1 className="text-xl font-bold">My Blog</h1>
 
-      <nav className="flex gap-4">
-        <Link to="/">Home</Link>
-        {/* <Link to="/posts">Posts</Link> */}
-        <Link to="/contact">Contact</Link>
+      <nav className="flex gap-4 items-center">
+        {isLoggedIn && <Link to="/">Home</Link>}
+        {isLoggedIn && <Link to="/contact">Contact</Link>}
+
+        {!isLoggedIn ? (
+          <Link to="/login">Login</Link>
+        ) : (
+          <button
+            onClick={handleLogoutClick}
+            className="px-2 py-1 border rounded"
+          >
+            Logout
+          </button>
+        )}
+
         <button
           onClick={toggleTheme}
-          className="ml-4 px-2 py-1 border rounded"
+          className="ml-2 px-2 py-1 border rounded"
         >
           {theme === "light" ? "Dark Mode" : "Light Mode"}
         </button>

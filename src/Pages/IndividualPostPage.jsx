@@ -4,15 +4,10 @@ import axios from "axios";
 import CommentBox from "../components/CommentBox";
 
 function IndividualPostPage() {
-  const { id } = useParams();
+  const { id } = useParams(); // matches /post/:id route
   const [post, setPost] = useState(null);
   const [user, setUser] = useState(null);
-  const [apiComments, setApiComments] = useState([]);
-  const [localComments, setLocalComments] = useState(() => {
-    // Read user-submitted comments from localStorage on first render
-    const saved = localStorage.getItem(`comments-${id}`);
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [comments, setComments] = useState([]);
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingComments, setLoadingComments] = useState(true);
   const [postingComment, setPostingComment] = useState(false);
@@ -50,8 +45,7 @@ function IndividualPostPage() {
     fetchPostAndUser();
   }, [id]);
 
-  // --- Fetch API comments ---
-  // Kept separate from localComments so they never overwrite each other
+  // --- Fetch Comments ---
   useEffect(() => {
     const fetchComments = async () => {
       setLoadingComments(true);
@@ -59,7 +53,7 @@ function IndividualPostPage() {
         const response = await axios.get(
           `https://jsonplaceholder.typicode.com/posts/${id}/comments`
         );
-        setApiComments(response.data);
+        setComments(response.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -70,12 +64,13 @@ function IndividualPostPage() {
     fetchComments();
   }, [id]);
 
-  // --- Combine API comments + local comments for display ---
-  // Two separate state slices means neither can ever overwrite the other
-  const allComments = [...apiComments, ...localComments];
-
   // --- Add New Comment ---
   const addComment = async (comment, callback) => {
+    if (!comment.name || !comment.text) {
+      alert("Please enter your name and comment.");
+      return;
+    }
+
     setPostingComment(true);
     try {
       const response = await axios.post(
@@ -86,35 +81,24 @@ function IndividualPostPage() {
           body: comment.text,
         }
       );
-
-      const newComment = response.data;
-
-      // Add to local state and persist to localStorage
-      setLocalComments((prev) => {
-        const updated = [...prev, newComment];
-        localStorage.setItem(`comments-${id}`, JSON.stringify(updated));
-        return updated;
-      });
-
-      callback?.();
+      setComments([...comments, response.data]); // update local state
+      callback?.(); // clear form after success
     } catch (err) {
       console.error("Error posting comment:", err);
+      alert("Failed to post comment. Try again.");
     } finally {
       setPostingComment(false);
     }
   };
 
   // --- Loading & Error States ---
-  if (loadingPost) return <p aria-live="polite">Loading post...</p>;
-  if (error) return <p role="alert">{error}</p>;
+  if (loadingPost) return <p>Loading post...</p>;
+  if (error) return <p>{error}</p>;
   if (!post) return <p>Post not found</p>;
 
   return (
     <div className="post" style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-      <Link
-        to="/"
-        style={{ display: "inline-block", marginBottom: "20px", color: "#3b82f6" }}
-      >
+      <Link to="/" style={{ display: "inline-block", marginBottom: "20px", color: "#3b82f6" }}>
         ← Back to Blog Posts
       </Link>
 
@@ -124,7 +108,16 @@ function IndividualPostPage() {
 
       {/* Author Info */}
       {user && (
-        <div className="author-box">
+        <div
+          style={{
+            marginTop: "20px",
+            marginBottom: "30px",
+            padding: "10px",
+            border: "1px solid #ddd",
+            borderRadius: "5px",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
           <p><strong>Author:</strong> {user.name}</p>
           <p><strong>Email:</strong> {user.email}</p>
         </div>
@@ -133,18 +126,25 @@ function IndividualPostPage() {
       {/* Comments Section */}
       <h3>Comments</h3>
       {loadingComments ? (
-        <p aria-live="polite">Loading comments...</p>
-      ) : allComments.length === 0 ? (
+        <p>Loading comments...</p>
+      ) : comments.length === 0 ? (
         <p>No comments yet. Be the first to comment!</p>
       ) : (
-        <section aria-label="Comments">
-          {allComments.map((c, index) => (
-            <div key={c.id ?? `local-${index}`} className="comment-card">
-              <strong>{c.name}</strong>
-              <p>{c.body}</p>
-            </div>
-          ))}
-        </section>
+        comments.map((c) => (
+          <div
+            key={c.id}
+            style={{
+              marginBottom: "15px",
+              padding: "10px",
+              border: "1px solid #eee",
+              borderRadius: "5px",
+              backgroundColor: "#fdfdfd",
+            }}
+          >
+            <strong>{c.name}</strong>
+            <p>{c.body}</p>
+          </div>
+        ))
       )}
 
       {/* Comment Form */}

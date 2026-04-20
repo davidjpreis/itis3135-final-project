@@ -83,7 +83,6 @@ h2 {
   background: linear-gradient(to right, #4f46e5, #3b82f6);
   color: white;
   padding: 20px 40px;
-  
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -107,7 +106,6 @@ body.dark .header {
 body.dark .post {
   background: #1f2937;
   color: white;
-  
 }
 
 /* Comments */
