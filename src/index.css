@@ -6,8 +6,8 @@
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
@@ -46,7 +46,8 @@ body {
 }
 
 /* Headings */
-h1, h2 {
+h1,
+h2 {
   font-family: var(--heading);
   font-weight: 500;
   color: var(--text-h);
@@ -83,7 +84,7 @@ h2 {
   background: linear-gradient(to right, #4f46e5, #3b82f6);
   color: white;
   padding: 20px 40px;
-  
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -107,7 +108,6 @@ body.dark .header {
 body.dark .post {
   background: #1f2937;
   color: white;
-  
 }
 
 /* Comments */
@@ -131,6 +131,24 @@ button {
   border-radius: 25px;
   font-weight: bold;
   cursor: pointer;
+}
+
+/* David added login/logout button and welcome message styles */
+.log {
+  font-size: 16px;
+  background-color: #8be11b;
+  text-decoration: underline;
+}
+
+.welcome {
+  font-size: 25px;
+  text-align: center;
+  color: #000000;
+  border: 2px solid #a9a2b8;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 30px auto;
+  font-weight: bold;
 }
 
 button:hover {
