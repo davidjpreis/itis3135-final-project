@@ -25,9 +25,11 @@ function Header({ isLoggedIn, onLogout }) {
       <h1 className="text-xl font-bold">My Blog</h1>
 
       <nav className="flex gap-4 items-center">
-        {isLoggedIn && <Link to="/">Home</Link>}
-        {isLoggedIn && <Link to="/contact">Contact</Link>}
+        {/* Nav links visible to everyone */}
+        <Link to="/">Home</Link>
+        <Link to="/contact">Contact</Link>
 
+        {/* Show Login or Logout depending on auth state */}
         {!isLoggedIn ? (
           <Link to="/login">Login</Link>
         ) : (
