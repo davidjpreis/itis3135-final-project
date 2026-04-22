@@ -14,7 +14,7 @@ function LoginPage({ onLogin, isLoggedIn }) {
     e.preventDefault();
 
     const success = onLogin(username, password);
-ç
+
     if (!success) {
       setError("Invalid username or password");
     } else {

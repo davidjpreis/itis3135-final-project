@@ -27,24 +27,18 @@ function App() {
     <ThemeProvider>
       <Router>
         <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-        <Routes>
-          <Route
-            path="/"
-            element={isLoggedIn ? <PostList /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/post/:id"
-            element={isLoggedIn ? <IndividualPostPage /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/contact"
-            element={isLoggedIn ? <ContactPage /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/login"
-            element={<LoginPage onLogin={handleLogin} isLoggedIn={isLoggedIn} />}
-          />
-        </Routes>
+        <main id="main-content">
+          <Routes>
+            
+            <Route path="/" element={<PostList />} />
+            <Route path="/post/:id" element={<IndividualPostPage isLoggedIn={isLoggedIn} />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route
+              path="/login"
+              element={<LoginPage onLogin={handleLogin} isLoggedIn={isLoggedIn} />}
+            />
+          </Routes>
+        </main>
         <Footer />
       </Router>
     </ThemeProvider>
