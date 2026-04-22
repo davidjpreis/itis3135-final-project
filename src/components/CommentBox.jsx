@@ -1,34 +1,34 @@
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function CommentBox({ addComment, posting }) {
-  const [name, setName] = useState("");
+  const { user } = useAuth();
   const [text, setText] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !text) {
-      alert("Please enter your name and comment.");
+
+    if (!user) return;
+
+    if (!text.trim()) {
+      alert("Please enter a comment.");
       return;
     }
 
-    addComment({ name, text }, () => {
-      // Clear form only after successful post
-      setName("");
+    addComment({ name: user.username, text }, () => {
       setText("");
     });
   };
 
+  if (!user) {
+    return <p className="mt-4">Please log in to leave a comment.</p>;
+  }
+
   return (
     <div className="mt-4">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-        <input
-          type="text"
-          placeholder="Your Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border p-1"
-        />
+      <p className="mb-2">Commenting as: {user.username}</p>
 
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <textarea
           placeholder="Your Comment"
           value={text}

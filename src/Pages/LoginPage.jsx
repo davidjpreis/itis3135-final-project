@@ -1,25 +1,40 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-function LoginPage({ onLogin, isLoggedIn }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function LoginPage() {
+  const [userData, setUserData] = useState({
+    username: "",
+    password: "",
+  });
   const [error, setError] = useState("");
 
-  if (isLoggedIn) {
+  const { user, login } = useAuth();
+  const navigate = useNavigate();
+
+  if (user) {
     return <Navigate to="/" />;
+  }
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const success = onLogin(username, password);
-
-    if (!success) {
-      setError("Invalid username or password");
-    } else {
-      setError("");
+    if (!userData.username.trim() || !userData.password.trim()) {
+      setError("Please enter both username and password.");
+      return;
     }
+
+    login(userData.username);
+    setError("");
+    navigate("/");
   }
 
   return (
@@ -29,17 +44,19 @@ function LoginPage({ onLogin, isLoggedIn }) {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
+          name="username"
           placeholder="Enter username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={userData.username}
+          onChange={handleChange}
           className="border p-2 rounded"
         />
 
         <input
           type="password"
+          name="password"
           placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={userData.password}
+          onChange={handleChange}
           className="border p-2 rounded"
         />
 
@@ -49,8 +66,6 @@ function LoginPage({ onLogin, isLoggedIn }) {
       </form>
 
       {error && <p className="text-red-500 mt-4">{error}</p>}
-
-     
     </div>
   );
 }

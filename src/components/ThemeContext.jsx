@@ -17,7 +17,7 @@ export function ThemeProvider({ children }) {
     document.body.classList.remove("light", "dark");
     document.body.classList.add(theme);
     localStorage.setItem("theme", theme);
-  }, [theme]);
+  }, [theme]);  
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
