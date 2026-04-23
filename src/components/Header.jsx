@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "./ThemeContext";
-import { useAuth } from "../context/AuthContext";
+import { useUsername, useAuth } from "../context/AuthContext";
 
 function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { user, logout } = useAuth();
+  const username = useUsername();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,7 +16,7 @@ function Header() {
 
   function handleLogoutClick() {
     logout();
-    navigate("/login");
+    navigate("/");
   }
 
   return (
@@ -26,28 +27,24 @@ function Header() {
     >
       <h1 className="text-xl font-bold">My Blog</h1>
 
-      <nav className="flex gap-4 items-center">
-        <Link to="/">Home</Link>
-        <Link to="/contact">Contact</Link>
-
-        {!user ? (
-          <Link to="/login">Login</Link>
+      <nav className="navBar">
+        {username ? (
+          <button className="log1" onClick={handleLogoutClick}>
+            Logout
+          </button>
         ) : (
-          <>
-            <span>{user.username}</span>
-            <button
-              onClick={handleLogoutClick}
-              className="px-2 py-1 border rounded"
-            >
-              Logout
-            </button>
-          </>
+          <button className="log2">
+            <Link to="/login">Login</Link>
+          </button>
         )}
+        <p>
+          <Link to="/">Home</Link>
+        </p>
+        <p>
+          <Link to="/contact">Contact</Link>
+        </p>
 
-        <button
-          onClick={toggleTheme}
-          className="ml-2 px-2 py-1 border rounded"
-        >
+        <button onClick={toggleTheme} className="ml-2 px-2 py-1 border rounded">
           {theme === "light" ? "Dark Mode" : "Light Mode"}
         </button>
       </nav>
