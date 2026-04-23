@@ -1,19 +1,18 @@
 import { useState } from "react";
 
-function CommentBox({ addComment, posting }) {
-  const [name, setName] = useState("");
+function CommentBox({ addComment, posting, username }) {
+  const [name] = useState(username);
   const [text, setText] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !text) {
-      alert("Please enter your name and comment.");
+    if (!text) {
+      alert("Please enter a comment.");
       return;
     }
 
     addComment({ name, text }, () => {
-      // Clear form only after successful post
-      setName("");
+      
       setText("");
     });
   };
@@ -21,13 +20,8 @@ function CommentBox({ addComment, posting }) {
   return (
     <div className="mt-4">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-        <input
-          type="text"
-          placeholder="Your Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border p-1"
-        />
+       
+      
 
         <textarea
           placeholder="Your Comment"

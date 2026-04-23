@@ -1,24 +1,27 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../components/AuthContext.jsx";
 
-function LoginPage({ onLogin, isLoggedIn }) {
+function LoginPage() {
+  const { user, login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  if (isLoggedIn) {
+  // If already logged in, redirect to home
+  if (user) {
     return <Navigate to="/" />;
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    const success = onLogin(username, password);
-
+    const success = login(username, password);
     if (!success) {
       setError("Invalid username or password");
     } else {
       setError("");
+      navigate("/");
     }
   }
 
@@ -34,7 +37,6 @@ function LoginPage({ onLogin, isLoggedIn }) {
           onChange={(e) => setUsername(e.target.value)}
           className="border p-2 rounded"
         />
-
         <input
           type="password"
           placeholder="Enter password"
@@ -42,15 +44,12 @@ function LoginPage({ onLogin, isLoggedIn }) {
           onChange={(e) => setPassword(e.target.value)}
           className="border p-2 rounded"
         />
-
         <button type="submit" className="border rounded p-2">
           Login
         </button>
       </form>
 
       {error && <p className="text-red-500 mt-4">{error}</p>}
-
-     
     </div>
   );
 }

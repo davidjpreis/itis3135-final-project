@@ -1,9 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "./ThemeContext";
+import { useAuth } from "./AuthContext";
 
-function Header({ isLoggedIn, onLogout }) {
+function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -12,8 +14,8 @@ function Header({ isLoggedIn, onLogout }) {
   }, [theme]);
 
   function handleLogoutClick() {
-    onLogout();
-    navigate("/login");
+    logout();
+    navigate("/");
   }
 
   return (
@@ -24,27 +26,30 @@ function Header({ isLoggedIn, onLogout }) {
     >
       <h1 className="text-xl font-bold">My Blog</h1>
 
-      <nav className="flex gap-4 items-center">
-        {/* Nav links visible to everyone */}
-        <Link to="/">Home</Link>
-        <Link to="/contact">Contact</Link>
+      {user && <p>Welcome, {user.username}!</p>}
 
-        {/* Show Login or Logout depending on auth state */}
-        {!isLoggedIn ? (
-          <Link to="/login">Login</Link>
+      <nav className="flex gap-4 items-center">
+        <button onClick={() => navigate("/")} className="px-2 py-1 border rounded">
+          Home
+        </button>
+        <button onClick={() => navigate("/contact")} className="px-2 py-1 border rounded">
+          Contact
+        </button>
+
+        {user ? (
+          <>
+          
+            <button onClick={handleLogoutClick} className="px-2 py-1 border rounded">
+              Logout
+            </button>
+          </>
         ) : (
-          <button
-            onClick={handleLogoutClick}
-            className="px-2 py-1 border rounded"
-          >
-            Logout
+          <button onClick={() => navigate("/login")} className="px-2 py-1 border rounded">
+            Login
           </button>
         )}
 
-        <button
-          onClick={toggleTheme}
-          className="ml-2 px-2 py-1 border rounded"
-        >
+        <button onClick={toggleTheme} className="ml-2 px-2 py-1 border rounded">
           {theme === "light" ? "Dark Mode" : "Light Mode"}
         </button>
       </nav>
