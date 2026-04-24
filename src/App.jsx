@@ -6,7 +6,8 @@ import IndividualPostPage from "./Pages/IndividualPostPage.jsx";
 import ContactPage from "./Pages/ContactPage.jsx";
 import LoginPage from "./Pages/LoginPage.jsx";
 import { ThemeProvider } from "./components/ThemeContext";
-import { AuthProvider } from "./components/AuthContext";
+
+import AuthProvider from "./context/AuthProvider.jsx";
 
 function App() {
   return (

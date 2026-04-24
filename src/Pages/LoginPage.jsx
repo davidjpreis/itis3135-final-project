@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAuth } from "../components/AuthContext.jsx";
+import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
   const { user, login } = useAuth();
@@ -27,7 +27,7 @@ function LoginPage() {
 
   return (
     <div className="p-8 max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <h2 className="text-2xl font-bold mb-4 underline">Login</h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -37,6 +37,7 @@ function LoginPage() {
           onChange={(e) => setUsername(e.target.value)}
           className="border p-2 rounded"
         />
+        <br />
         <input
           type="password"
           placeholder="Enter password"
@@ -44,6 +45,7 @@ function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           className="border p-2 rounded"
         />
+        <br />
         <button type="submit" className="border rounded p-2">
           Login
         </button>

@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CommentBox from "../components/CommentBox";
-import { useAuth } from "../components/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 function IndividualPostPage() {
   const { user } = useAuth();
@@ -138,7 +138,7 @@ function IndividualPostPage() {
             <p>No comments yet. Be the first to comment!</p>
           ) : (
             allComments.map((c, index) => (
-              <div key={c.id ?? `local-${index}`} className="comment-card">
+              <div key={`comment-${c.id}-${index}`} className="comment-card">
                 <strong>{c.name}</strong>
                 <p>{c.body}</p>
               </div>
