@@ -5,7 +5,7 @@ import { useUsername, useAuth } from "../context/AuthContext";
 
 function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const username = useUsername();
   const navigate = useNavigate();
 
