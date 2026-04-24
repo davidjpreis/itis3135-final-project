@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { ThemeContext } from "./ThemeContext";
 import { useUsername, useAuth } from "../context/AuthContext";
@@ -33,16 +33,12 @@ function Header() {
             Logout
           </button>
         ) : (
-          <button className="log2">
-            <Link to="/login">Login</Link>
+          <button className="log2" onClick={() => navigate("/login")}>
+            Login
           </button>
         )}
-        <p>
-          <Link to="/">Home</Link>
-        </p>
-        <p>
-          <Link to="/contact">Contact</Link>
-        </p>
+        <button onClick={() => navigate("/")}>Home</button>
+        <button onClick={() => navigate("/contact")}>Contact</button>
 
         <button onClick={toggleTheme} className="ml-2 px-2 py-1 border rounded">
           {theme === "light" ? "Dark Mode" : "Light Mode"}

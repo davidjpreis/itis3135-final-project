@@ -6,29 +6,26 @@ import IndividualPostPage from "./Pages/IndividualPostPage.jsx";
 import ContactPage from "./Pages/ContactPage.jsx";
 import LoginPage from "./Pages/LoginPage.jsx";
 import { ThemeProvider } from "./components/ThemeContext";
-import AuthProvider from "./context/AuthProvider";
 
-function AppContent() {
-  return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<PostList />} />
-        <Route path="/post/:id" element={<IndividualPostPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/login" element={<LoginPage />} />
-      </Routes>
-      <Footer />
-    </Router>
-  );
-}
+import AuthProvider from "./context/AuthProvider.jsx";
 
 function App() {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
+      <Router>
+        <AuthProvider>  
+          <Header />
+          <main id="main-content">
+            <Routes>
+              <Route path="/" element={<PostList />} />
+              <Route path="/post/:id" element={<IndividualPostPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Routes>
+          </main>
+          <Footer />
+        </AuthProvider>
+      </Router>
     </ThemeProvider>
   );
 }

@@ -26,7 +26,7 @@ function CommentBox({ addComment, posting }) {
 
   return (
     <div className="mt-4">
-      <p className="mb-2">Commenting as: {user.username}</p>
+      <p className="mb-2"><strong><u>Commenting as</u></strong>: {user.username}</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <textarea

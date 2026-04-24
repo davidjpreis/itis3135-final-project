@@ -33,6 +33,14 @@ body.dark {
   color: #ffffff;
 }
 
+body.dark .welcome {
+  color: white;
+}
+
+body.light .welcome {
+  color: black;
+}
+
 /* Base body */
 body {
   margin: 0;

@@ -7,11 +7,16 @@ function AuthProvider({ children }) {
     return saved ? JSON.parse(saved) : null;
   });
 
-  function login(username) {
+// ✅ Checks both username and password
+function login(username, password) {
+  if (username && password) {
     const u = { username };
     setUser(u);
     localStorage.setItem("user", JSON.stringify(u));
+    return true;
   }
+  return false;
+}
 
   function logout() {
     setUser(null);

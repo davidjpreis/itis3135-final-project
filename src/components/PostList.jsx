@@ -5,6 +5,7 @@ import { useUsername } from "../context/AuthContext";
 
 function PostList() {
   const [posts, setPosts] = useState([]);
+  const [auths, setAuths] = useState([]);
   const username = useUsername();
 
   useEffect(() => {
@@ -12,6 +13,13 @@ function PostList() {
       .get("https://jsonplaceholder.typicode.com/posts")
       .then((response) => setPosts(response.data))
       .catch((error) => console.error("Error fetching posts:", error));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((response) => setAuths(response.data))
+      .catch((error) => console.error("Error fetching users:", error));
   }, []);
 
   return (
@@ -34,7 +42,9 @@ function PostList() {
           key={post.id}
           id={post.id}
           title={post.title}
-          content={post.body} // ⚠️ important
+          content={post.body}
+          author={auths.find((a) => a.id === post.userId)?.name || "Unknown"}
+          date={new Date().toLocaleDateString()}
         />
       ))}
     </div>
